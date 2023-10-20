@@ -18,12 +18,14 @@ export const MovieList = () => {
     <div>
       {movieList.results &&
         movieList.results.map((results, key) => (
-          <div id={key}>
+          <div className="" id={key}>
             <img
               alt={results.title}
               src={`${MOVIE_API_IMAGES_URL}${results.poster_path}`}
             />
-            <label>{results.title}</label>
+            <label className="text-2xl font-bold underline">
+              {results.title}
+            </label>
             <p>{results.overview}</p>
           </div>
         ))}
