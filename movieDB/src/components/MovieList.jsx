@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { movieApiOptions, MOVIE_API_IMAGES_URL } from "../movieApiOptions";
+import Movie from "./Movie";
 
 export const MovieList = () => {
   const [movieList, setMovieList] = useState([]);
@@ -15,20 +16,16 @@ export const MovieList = () => {
   }, []);
   console.log(movieList.results, "movieList");
   return (
-    <div>
+    <div className="flex flex-row">
       {movieList.results &&
         movieList.results.map((results, key) => (
-          <div className="" id={key}>
-            <img
-              alt={results.title}
-              src={`${MOVIE_API_IMAGES_URL}${results.poster_path}`}
-            />
-            <label className="text-2xl font-bold underline">
-              {results.title}
-            </label>
-            <p>{results.overview}</p>
-          </div>
+          <Movie
+            results={results}
+            index={key}
+            imageUrl={MOVIE_API_IMAGES_URL}
+          />
         ))}
     </div>
   );
 };
+MOVIE_API_IMAGES_URL;
