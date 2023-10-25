@@ -5,6 +5,7 @@ import Movie from "./Movie";
 export const MovieList = () => {
   const [movieList, setMovieList] = useState([]);
   const [genres, setGenres] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); // Added loading state
   const movieRequest = fetch(
     "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc",
     movieApiOptions
@@ -20,21 +21,30 @@ export const MovieList = () => {
       .then(([movieRequest, genreRequest]) => {
         setMovieList(movieRequest);
         setGenres(genreRequest);
+        setIsLoading(false); // Set loading state to false when data is ready
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        console.error(err);
+        setIsLoading(false); // Set loading state to false on error as well
+      });
   }, []);
-  console.log(movieList, "results");
+
   return (
     <div className="container grid gap-4 grid-cols-4 grid-rows-4">
-      {movieList.results != null
-        ? movieList.results.map((results, index) => (
-            <Movie
-              results={results}
-              key={index}
-              imageUrl={MOVIE_API_IMAGES_URL}
-            />
-          ))
-        : "No movies to show"}
+      {isLoading ? (
+        // Display a loading indicator
+        <div>Loading...</div>
+      ) : movieList.results != null ? (
+        movieList.results.map((results, index) => (
+          <Movie
+            results={results}
+            key={index}
+            imageUrl={MOVIE_API_IMAGES_URL}
+          />
+        ))
+      ) : (
+        "No movies to show"
+      )}
     </div>
   );
 };
