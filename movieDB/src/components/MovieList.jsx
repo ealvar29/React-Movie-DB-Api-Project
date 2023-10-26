@@ -20,7 +20,7 @@ export const MovieList = () => {
     Promise.all([movieRequest, genreRequest])
       .then(([movieRequest, genreRequest]) => {
         setMovieList(movieRequest);
-        setGenres(genreRequest);
+        setGenres(genreRequest.genres);
         setIsLoading(false); // Set loading state to false when data is ready
       })
       .catch((err) => {
@@ -28,7 +28,6 @@ export const MovieList = () => {
         setIsLoading(false); // Set loading state to false on error as well
       });
   }, []);
-
   return (
     <div className="container grid gap-4 grid-cols-4 grid-rows-4">
       {isLoading ? (
@@ -40,6 +39,7 @@ export const MovieList = () => {
             results={results}
             key={index}
             imageUrl={MOVIE_API_IMAGES_URL}
+            genreList={genres}
           />
         ))
       ) : (
